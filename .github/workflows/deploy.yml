@@ -23,6 +23,7 @@ jobs:
           rm -rf my-first-project
           git clone https://github.com/ygc0507/my-first-project.git
           cd my-first-project
+          sudo systemctl stop nginx || true
           docker stop my-webpage || true
           docker rm my-webpage || true
           docker build -t my-webpage .
