@@ -12,9 +12,6 @@ jobs:
     - name: 코드 가져오기
       uses: actions/checkout@v3
 
-    - name: Docker 이미지 빌드
-      run: docker build -t my-webpage .
-
     - name: 서버에 배포
       uses: appleboy/ssh-action@master
       with:
@@ -22,6 +19,11 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_KEY }}
         script: |
+          cd /home/ubuntu
+          rm -rf my-first-project
+          git clone https://github.com/ygc0507/my-first-project.git
+          cd my-first-project
           docker stop my-webpage || true
           docker rm my-webpage || true
+          docker build -t my-webpage .
           docker run -d -p 80:80 --name my-webpage my-webpage
